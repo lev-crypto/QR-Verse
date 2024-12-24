@@ -20,6 +20,16 @@
             <button class="tab-button" onclick="openTab('wifi')">Wi-Fi</button>
             <button class="tab-button" onclick="openTab('audio')">Audio</button>
         </div>
+        <div class="form-group">
+            <label for="qr-foreground">Select Foreground Color:</label>
+            <input type="color" id="qr-foreground" value="#000000">
+        </div>
+        
+        <div class="form-group">
+            <label for="qr-background">Select Background Color:</label>
+            <input type="color" id="qr-background" value="#ffffff">
+        </div>
+        
 
         <div id="url" class="form-section active">
             <div class="form-group">
@@ -35,10 +45,10 @@
     <input type="text" id="vcard-name" placeholder="John Doe" required>
     
     <label for="vcard-phone">Phone Number:</label>
-    <input type="text" id="vcard-phone" placeholder="+1234567890" required>
+    <input type="text" id="vcard-phone" placeholder="+919234567890" required>
     
     <label for="vcard-email">Email Address:</label>
-    <input type="email" id="vcard-email" placeholder="john.doe@example.com" required>
+    <input type="email" id="vcard-email" placeholder="john.doe@gmail.com" required>
     
     <label for="vcard-address">Address:</label>
     <input type="text" id="vcard-address" placeholder="123 Main St, City, Country">

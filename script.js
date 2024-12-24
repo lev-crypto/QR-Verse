@@ -1,3 +1,5 @@
+let audioFile = null;
+
 function openTab(tab) {
     const sections = document.querySelectorAll('.form-section');
     const buttons = document.querySelectorAll('.tab-button');
@@ -8,12 +10,10 @@ function openTab(tab) {
     document.querySelector(`.tab-button[onclick="openTab('${tab}')"]`).classList.add('active');
 }
 
-let audioFile = null;
-
 function handleAudioUpload(event) {
     const file = event.target.files[0];
     if (file && file.type.startsWith('audio/')) {
-        audioFile = file; 
+        audioFile = file;
     } else {
         alert('Please upload a valid audio file.');
     }
@@ -90,30 +90,45 @@ function generateQRCode(type) {
         data = audioUrl || URL.createObjectURL(audioFile);
     }
 
-    const qrSize = document.getElementById('qr-size').value;
-    const qrWidth = qrSize === '4k' ? 4000 : 300;
-    QRCode.toCanvas(data, { width: qrWidth, margin: 2 }, function(error, canvas) {
+    const foregroundColor = document.getElementById('qr-foreground').value;
+    const backgroundColor = document.getElementById('qr-background').value;
+
+    const qrSize = 4000;
+
+    QRCode.toCanvas(data, {
+        width: qrSize,
+        margin: 2,
+        color: {
+            dark: foregroundColor,
+            light: backgroundColor,
+        },
+    }, function(error, canvas) {
         if (error) {
             alert("Error generating QR code: " + error);
         } else {
-            const scaledCanvas = document.createElement('canvas');
-            const ctx = scaledCanvas.getContext('2d');
-            scaledCanvas.width = 300;
-            scaledCanvas.height = 300;
+            const previewCanvas = document.createElement('canvas');
+            const ctx = previewCanvas.getContext('2d');
+            previewCanvas.width = 300;
+            previewCanvas.height = 300;
             ctx.drawImage(canvas, 0, 0, 300, 300);
-            preview.appendChild(scaledCanvas);
 
-            createDownloadButton(canvas);
+            preview.appendChild(previewCanvas);s
+            createDownloadButton(canvas, qrSize);
         }
     });
 }
 
-function createDownloadButton(canvas) {
+function createDownloadButton(canvas, qrWidth) {
     const downloadButton = document.createElement('button');
     downloadButton.textContent = 'Download QR Code';
     downloadButton.onclick = function() {
         const link = document.createElement('a');
-        link.href = canvas.toDataURL();
+        const largeCanvas = document.createElement('canvas');
+        const ctx = largeCanvas.getContext('2d');
+        largeCanvas.width = qrWidth;
+        largeCanvas.height = qrWidth;
+        ctx.drawImage(canvas, 0, 0, qrWidth, qrWidth);
+        link.href = largeCanvas.toDataURL();
         link.download = 'qr_code.png';
         link.click();
     };
