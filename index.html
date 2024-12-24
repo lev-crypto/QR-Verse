@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>QR-Verse</h1>
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="openTab('url')">URL</button>
+            <button class="tab-button" onclick="openTab('vcard')">vCard</button>
+            <button class="tab-button" onclick="openTab('text')">Text</button>
+            <button class="tab-button" onclick="openTab('email')">Email</button>
+            <button class="tab-button" onclick="openTab('sms')">SMS</button>
+            <button class="tab-button" onclick="openTab('wifi')">Wi-Fi</button>
+            <button class="tab-button" onclick="openTab('audio')">Audio</button>
+        </div>
+
+        <div id="url" class="form-section active">
+            <div class="form-group">
+                <label for="url-input">Enter URL:</label>
+                <input type="text" id="url-input" placeholder="https://example.com">
+            </div>
+            <button class="generate-btn" onclick="generateQRCode('url')">Generate QR Code</button>
+        </div>
+
+       <div id="vcard" class="form-section">
+    <h2>Generate vCard QR Code</h2>
+    <label for="vcard-name">Full Name:</label>
+    <input type="text" id="vcard-name" placeholder="John Doe" required>
+    
+    <label for="vcard-phone">Phone Number:</label>
+    <input type="text" id="vcard-phone" placeholder="+1234567890" required>
+    
+    <label for="vcard-email">Email Address:</label>
+    <input type="email" id="vcard-email" placeholder="john.doe@example.com" required>
+    
+    <label for="vcard-address">Address:</label>
+    <input type="text" id="vcard-address" placeholder="123 Main St, City, Country">
+
+    <label for="vcard-company">Company:</label>
+    <input type="text" id="vcard-company" placeholder="Example Corp">
+
+    <label for="vcard-title">Job Title:</label>
+    <input type="text" id="vcard-title" placeholder="Software Developer">
+
+    <label for="vcard-website">Website:</label>
+    <input type="url" id="vcard-website" placeholder="https://www.johndoe.com">
+
+    <button onclick="generateQRCode('vcard')">Generate vCard QR Code</button>
+</div>
+
+
+        <div id="text" class="form-section">
+            <div class="form-group">
+                <label for="text-input">Enter Text:</label>
+                <textarea id="text-input" placeholder="Enter your text"></textarea>
+            </div>
+            <button class="generate-btn" onclick="generateQRCode('text')">Generate QR Code</button>
+        </div>
+
+        <div id="email" class="form-section">
+            <div class="form-group">
+                <label for="email-address">Email Address:</label>
+                <input type="email" id="email-address" placeholder="email@example.com">
+            </div>
+            <div class="form-group">
+                <label for="email-subject">Subject:</label>
+                <input type="text" id="email-subject" placeholder="Subject">
+            </div>
+            <button class="generate-btn" onclick="generateQRCode('email')">Generate QR Code</button>
+        </div>
+
+        <div id="sms" class="form-section">
+            <div class="form-group">
+                <label for="sms-number">Phone Number:</label>
+                <input type="text" id="sms-number" placeholder="+1234567890">
+            </div>
+            <div class="form-group">
+                <label for="sms-message">Message:</label>
+                <textarea id="sms-message" placeholder="Enter your message"></textarea>
+            </div>
+            <button class="generate-btn" onclick="generateQRCode('sms')">Generate QR Code</button>
+        </div>
+
+        <div id="wifi" class="form-section">
+            <div class="form-group">
+                <label for="wifi-ssid">SSID:</label>
+                <input type="text" id="wifi-ssid" placeholder="Wi-Fi Network Name">
+            </div>
+            <div class="form-group">
+                <label for="wifi-password">Password:</label>
+                <input type="password" id="wifi-password" placeholder="Enter Wi-Fi password">
+            </div>
+            <div class="form-group">
+                <label for="wifi-security">Security Type:</label>
+                <select id="wifi-security">
+                    <option value="WPA">WPA</option>
+                    <option value="WEP">WEP</option>
+                    <option value="none">None</option>
+                </select>
+            </div>
+            <button class="generate-btn" onclick="generateQRCode('wifi')">Generate QR Code</button>
+        </div>
+
+        <div id="audio" class="form-section">
+            <div class="form-group">
+                <label for="audio-url">Enter Audio URL:</label>
+                <input type="text" id="audio-url" placeholder="https://example.com/audio.mp3">
+            </div>
+            <div class="form-group">
+                <label for="audio-upload">Or Upload Audio File:</label>
+                <input type="file" id="audio-upload" accept="audio/*" onchange="handleAudioUpload(event)">
+            </div>
+            <button class="generate-btn" onclick="generateQRCode('audio')">Generate QR Code</button>
+        </div>
+
+        <div class="form-group">
+            <label for="qr-size">Select QR Code Size:</label>
+            <select id="qr-size">
+                <option value="normal">Normal</option>
+                <option value="4k">4K</option>
+            </select>
+        </div>
+
+        <div id="code-preview"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.4.4/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
