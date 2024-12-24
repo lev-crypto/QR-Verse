@@ -1,3 +1,4 @@
+/* General Body Styling */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -6,8 +7,9 @@ body {
     background: #f9f9f9;
 }
 
+/* Container Styling */
 .container {
-    max-width: 800px;
+    max-width: 800px; /* Keep max width for desktop */
     margin: 50px auto;
     background: white;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -15,14 +17,17 @@ body {
     border-radius: 10px;
 }
 
+/* Heading Styling */
 h1 {
     color: #333;
 }
 
+/* Tab Buttons Styling */
 .tab-buttons {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
+    flex-wrap: wrap; /* Ensures buttons wrap on smaller screens */
 }
 
 .tab-button {
@@ -34,12 +39,14 @@ h1 {
     color: white;
     font-size: 16px;
     cursor: pointer;
+    flex: 1 1 1px; /* Ensures buttons can shrink and fit on smaller screens */
 }
 
 .tab-button.active {
     background: #4b0096;
 }
 
+/* Form Section Visibility */
 .form-section {
     display: none;
 }
@@ -48,6 +55,7 @@ h1 {
     display: block;
 }
 
+/* Form Group Styling */
 .form-group {
     margin: 15px 0;
 }
@@ -58,6 +66,7 @@ label {
     margin-bottom: 5px;
 }
 
+/* Input and Select Styling */
 input,
 select {
     width: 100%;
@@ -67,6 +76,7 @@ select {
     border-radius: 5px;
 }
 
+/* Generate Button Styling */
 .generate-btn {
     display: inline-block;
     background: linear-gradient(90deg, #6000c1, #4b0096);
@@ -90,21 +100,13 @@ canvas {
     width: 300px;
     height: 300px;
 }
-.generate-btn {
-    background-color: #6a0dad;
-    color: white;
-    font-size: 16px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
 
-.button:hover {
+/* Hover Effect for Buttons */
+.generate-btn:hover {
     background-color: #9b30b5;
 }
 
+/* Button Styling */
 button {
     display: block;
     width: 100%;
@@ -118,3 +120,106 @@ button {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* Mobile Responsiveness (for screens less than 600px) */
+@media (max-width: 600px) {
+    /* Adjust container width */
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    /* Adjust the heading font size */
+    h1 {
+        font-size: 22px;
+    }
+
+    /* Tab Buttons Styling */
+    .tab-buttons {
+        flex-direction: column; /* Stack buttons vertically */
+        align-items: center;
+    }
+
+    .tab-button {
+        width: 100%; /* Ensure buttons take full width */
+        padding: 12px;
+        font-size: 14px;
+        margin: 5px 0; /* Vertical spacing between buttons */
+    }
+
+    /* Form Group Padding and Font Adjustments */
+    .form-group {
+        margin: 10px 0;
+    }
+
+    label {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    input,
+    select {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    /* Button Styling on Mobile */
+    .generate-btn {
+        font-size: 16px;
+        padding: 12px 20px;
+    }
+
+    canvas {
+        width: 100%; /* Ensure canvas scales to container size */
+        max-width: 200px; /* Limit width on mobile */
+    }
+}
+
+/* Tablet Responsiveness (for screens between 601px and 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    /* Adjust container width */
+    .container {
+        width: 80%;
+    }
+
+    /* Adjust the heading font size */
+    h1 {
+        font-size: 24px;
+    }
+
+    /* Tab Buttons Styling */
+    .tab-buttons {
+        flex-wrap: wrap; /* Allow buttons to wrap on tablet */
+    }
+
+    .tab-button {
+        font-size: 15px;
+        padding: 12px 20px;
+        margin: 5px;
+    }
+
+    /* Form Group Padding and Font Adjustments */
+    .form-group {
+        margin: 12px 0;
+    }
+
+    label {
+        font-size: 15px;
+    }
+
+    input,
+    select {
+        font-size: 15px;
+        padding: 14px;
+    }
+
+    /* Button Styling on Tablets */
+    .generate-btn {
+        font-size: 17px;
+        padding: 14px 22px;
+    }
+
+    canvas {
+        width: 100%;
+        max-width: 250px;
+    }
+}
