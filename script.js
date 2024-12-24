@@ -21,9 +21,10 @@ function handleAudioUpload(event) {
 
 function generateQRCode(type) {
     const preview = document.getElementById('code-preview');
-    preview.innerHTML = '';
+    preview.innerHTML = ''; // Clear previous QR code
 
     let data = '';
+    // Handling the different types of QR code data
     if (type === 'url') {
         data = document.getElementById('url-input').value.trim();
         if (!data) {
@@ -90,30 +91,34 @@ function generateQRCode(type) {
         data = audioUrl || URL.createObjectURL(audioFile);
     }
 
+    // Get selected colors
     const foregroundColor = document.getElementById('qr-foreground').value;
     const backgroundColor = document.getElementById('qr-background').value;
 
+    // Set 4k resolution for the QR code
     const qrSize = 4000;
 
+    // Generate QR code in 4k resolution
     QRCode.toCanvas(data, {
-        width: qrSize,
+        width: qrSize,  // Set QR code size to 4k resolution
         margin: 2,
         color: {
-            dark: foregroundColor,
-            light: backgroundColor,
+            dark: foregroundColor, // Foreground color
+            light: backgroundColor, // Background color
         },
     }, function(error, canvas) {
         if (error) {
             alert("Error generating QR code: " + error);
         } else {
+            // Resize canvas to fit preview container
             const previewCanvas = document.createElement('canvas');
             const ctx = previewCanvas.getContext('2d');
-            previewCanvas.width = 300;
+            previewCanvas.width = 300;  // Resize to a smaller size for preview
             previewCanvas.height = 300;
-            ctx.drawImage(canvas, 0, 0, 300, 300);
+            ctx.drawImage(canvas, 0, 0, 300, 300);  // Draw 4k canvas into smaller preview
 
-            preview.appendChild(previewCanvas);s
-            createDownloadButton(canvas, qrSize);
+            preview.appendChild(previewCanvas); // Append resized preview canvas
+            createDownloadButton(canvas, qrSize); // Pass original 4k canvas for download
         }
     });
 }
