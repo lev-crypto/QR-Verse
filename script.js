@@ -1,4 +1,14 @@
 let audioFile = null;
+let logoFile = null;
+
+function handleLogoUpload(event) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+        logoFile = file;
+    } else {
+        alert('Please upload a valid image file for the logo.');
+    }
+}
 
 function openTab(tab) {
     const sections = document.querySelectorAll('.form-section');
@@ -10,21 +20,12 @@ function openTab(tab) {
     document.querySelector(`.tab-button[onclick="openTab('${tab}')"]`).classList.add('active');
 }
 
-function handleAudioUpload(event) {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('audio/')) {
-        audioFile = file;
-    } else {
-        alert('Please upload a valid audio file.');
-    }
-}
-
 function generateQRCode(type) {
     const preview = document.getElementById('code-preview');
-    preview.innerHTML = ''; // Clear previous QR code
+    preview.innerHTML = '';
 
     let data = '';
-    // Handling the different types of QR code data
+
     if (type === 'url') {
         data = document.getElementById('url-input').value.trim();
         if (!data) {
@@ -35,29 +36,31 @@ function generateQRCode(type) {
         const name = document.getElementById('vcard-name').value.trim();
         const phone = document.getElementById('vcard-phone').value.trim();
         const email = document.getElementById('vcard-email').value.trim();
-        const address = document.getElementById('vcard-address').value.trim();
-        const company = document.getElementById('vcard-company').value.trim();
-        const title = document.getElementById('vcard-title').value.trim();
-        const website = document.getElementById('vcard-website').value.trim();
 
         if (!name || !phone || !email) {
-            alert('Please enter at least Name, Phone, and Email.');
+            alert('Please provide all fields for the vCard.');
             return;
         }
 
-        data = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL:${phone}\nEMAIL:${email}`;
-        if (address) data += `\nADR:${address}`;
-        if (company) data += `\nORG:${company}`;
-        if (title) data += `\nTITLE:${title}`;
-        if (website) data += `\nURL:${website}`;
-        data += `\nEND:VCARD`;
+        data = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
+    } else if (type === 'upi') {
+        const upiId = document.getElementById('upi-id').value.trim();
+        const merchantName = "Merchant";
+        const transactionId = "12345";
+        const transactionNote = "Payment for order";
+        if (!upiId) {
+            alert('Please enter a valid UPI ID.');
+            return;
+        }
+
+        data = `upi://pay?pa=${upiId}&pn=${merchantName}&tid=${transactionId}&cu=INR&tn=${transactionNote}`;
     } else if (type === 'text') {
         data = document.getElementById('text-input').value.trim();
         if (!data) {
             alert('Please enter some text.');
             return;
         }
-    } else if (type === 'email') {
+    }  else if (type === 'email') {
         const email = document.getElementById('email-address').value.trim();
         const subject = document.getElementById('email-subject').value.trim();
         if (!email || !subject) {
@@ -91,48 +94,63 @@ function generateQRCode(type) {
         data = audioUrl || URL.createObjectURL(audioFile);
     }
 
-    // Get selected colors
     const foregroundColor = document.getElementById('qr-foreground').value;
     const backgroundColor = document.getElementById('qr-background').value;
 
-    // Set 4k resolution for the QR code
     const qrSize = 4000;
 
-    // Generate QR code in 4k resolution
     QRCode.toCanvas(data, {
-        width: qrSize,  // Set QR code size to 4k resolution
+        width: qrSize,
         margin: 2,
         color: {
-            dark: foregroundColor, // Foreground color
-            light: backgroundColor, // Background color
+            dark: foregroundColor,
+            light: backgroundColor,
         },
     }, function(error, canvas) {
         if (error) {
             alert("Error generating QR code: " + error);
         } else {
-            // Resize canvas to fit preview container
-            const previewCanvas = document.createElement('canvas');
-            const ctx = previewCanvas.getContext('2d');
-            previewCanvas.width = 300;  // Resize to a smaller size for preview
-            previewCanvas.height = 300;
-            ctx.drawImage(canvas, 0, 0, 300, 300);  // Draw 4k canvas into smaller preview
+            if (logoFile) {
+                const ctx = canvas.getContext('2d');
+                const logo = new Image();
+                logo.onload = function() {
+                    const logoSize = qrSize / 5;
+                    const logoX = (qrSize - logoSize) / 2;
+                    const logoY = (qrSize - logoSize) / 2;
 
-            preview.appendChild(previewCanvas); // Append resized preview canvas
-            createDownloadButton(canvas, qrSize); // Pass original 4k canvas for download
+                    ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
+                    previewQRCode(canvas);
+                };
+                logo.src = URL.createObjectURL(logoFile);
+            } else {
+                previewQRCode(canvas);
+            }
         }
     });
 }
 
-function createDownloadButton(canvas, qrWidth) {
+function previewQRCode(canvas) {
+    const previewCanvas = document.createElement('canvas');
+    const ctx = previewCanvas.getContext('2d');
+    previewCanvas.width = 300;
+    previewCanvas.height = 300;
+    ctx.drawImage(canvas, 0, 0, 300, 300);
+
+    document.getElementById('code-preview').appendChild(previewCanvas);
+    createDownloadButton(canvas);
+}
+
+function createDownloadButton(canvas) {
     const downloadButton = document.createElement('button');
     downloadButton.textContent = 'Download QR Code';
     downloadButton.onclick = function() {
         const link = document.createElement('a');
         const largeCanvas = document.createElement('canvas');
         const ctx = largeCanvas.getContext('2d');
-        largeCanvas.width = qrWidth;
-        largeCanvas.height = qrWidth;
-        ctx.drawImage(canvas, 0, 0, qrWidth, qrWidth);
+        largeCanvas.width = 4000;
+        largeCanvas.height = 4000;
+        ctx.drawImage(canvas, 0, 0, 4000, 4000);
+
         link.href = largeCanvas.toDataURL();
         link.download = 'qr_code.png';
         link.click();

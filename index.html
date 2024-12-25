@@ -18,8 +18,10 @@
             <button class="tab-button" onclick="openTab('email')">Email</button>
             <button class="tab-button" onclick="openTab('sms')">SMS</button>
             <button class="tab-button" onclick="openTab('wifi')">Wi-Fi</button>
-            <button class="tab-button" onclick="openTab('audio')">Audio</button>
+            <!-- <button class="tab-button" onclick="openTab('audio')">Audio</button> -->
+            <button class="tab-button" onclick="openTab('upi')">UPI</button>
         </div>
+
         <div class="form-group">
             <label for="qr-foreground">Select Foreground Color:</label>
             <input type="color" id="qr-foreground" value="#000000">
@@ -28,7 +30,7 @@
         <div class="form-group">
             <label for="qr-background">Select Background Color:</label>
             <input type="color" id="qr-background" value="#ffffff">
-        </div>        
+        </div>
 
         <div id="url" class="form-section active">
             <div class="form-group">
@@ -38,33 +40,32 @@
             <button class="generate-btn" onclick="generateQRCode('url')">Generate QR Code</button>
         </div>
 
-       <div id="vcard" class="form-section">
-    <h2>Generate vCard QR Code</h2>
-    <label for="vcard-name">Full Name:</label>
-    <input type="text" id="vcard-name" placeholder="John Doe" required>
-    
-    <label for="vcard-phone">Phone Number:</label>
-    <input type="text" id="vcard-phone" placeholder="+919234567890" required>
-    
-    <label for="vcard-email">Email Address:</label>
-    <input type="email" id="vcard-email" placeholder="john.doe@gmail.com" required>
-    
-    <label for="vcard-address">Address:</label>
-    <input type="text" id="vcard-address" placeholder="123 Main St, City, Country">
+        <div id="vcard" class="form-section">
+            <h2>Generate vCard QR Code</h2>
+            <label for="vcard-name">Full Name:</label>
+            <input type="text" id="vcard-name" placeholder="John Doe" required>
+            
+            <label for="vcard-phone">Phone Number:</label>
+            <input type="text" id="vcard-phone" placeholder="+919234567890" required>
+            
+            <label for="vcard-email">Email Address:</label>
+            <input type="email" id="vcard-email" placeholder="john.doe@gmail.com" required>
+            
+            <label for="vcard-address">Address:</label>
+            <input type="text" id="vcard-address" placeholder="123 Main St, City, Country">
 
-    <label for="vcard-company">Company:</label>
-    <input type="text" id="vcard-company" placeholder="Example Corp">
+            <label for="vcard-company">Company:</label>
+            <input type="text" id="vcard-company" placeholder="Example Corp">
 
-    <label for="vcard-title">Job Title:</label>
-    <input type="text" id="vcard-title" placeholder="Software Developer">
+            <label for="vcard-title">Job Title:</label>
+            <input type="text" id="vcard-title" placeholder="Software Developer">
 
-    <label for="vcard-website">Website:</label>
-    <input type="url" id="vcard-website" placeholder="https://www.johndoe.com">
+            <label for="vcard-website">Website:</label>
+            <input type="url" id="vcard-website" placeholder="https://www.johndoe.com">
 
-    <button onclick="generateQRCode('vcard')">Generate vCard QR Code</button>
-</div>
-
-
+            <button onclick="generateQRCode('vcard')">Generate vCard QR Code</button>
+        </div>
+        
         <div id="text" class="form-section">
             <div class="form-group">
                 <label for="text-input">Enter Text:</label>
@@ -109,7 +110,7 @@
             <div class="form-group">
                 <label for="wifi-security">Security Type:</label>
                 <select id="wifi-security">
-                    <option value="WPA">WPA</option>
+                    <option value="WPA">WPA/WPA2</option>
                     <option value="WEP">WEP</option>
                     <option value="none">None</option>
                 </select>
@@ -117,7 +118,7 @@
             <button class="generate-btn" onclick="generateQRCode('wifi')">Generate QR Code</button>
         </div>
 
-        <div id="audio" class="form-section">
+        <!-- <div id="audio" class="form-section">
             <div class="form-group">
                 <label for="audio-url">Enter Audio URL:</label>
                 <input type="text" id="audio-url" placeholder="https://example.com/audio.mp3">
@@ -127,6 +128,14 @@
                 <input type="file" id="audio-upload" accept="audio/*" onchange="handleAudioUpload(event)">
             </div>
             <button class="generate-btn" onclick="generateQRCode('audio')">Generate QR Code</button>
+        </div> -->
+
+        <div id="upi" class="form-section">
+            <div class="form-group">
+                <label for="upi-id">Enter UPI ID:</label>
+                <input type="text" id="upi-id" placeholder="example@upi">
+            </div>
+            <button class="generate-btn" onclick="generateQRCode('upi')">Generate UPI QR Code</button>
         </div>
 
         <div class="form-group">
@@ -136,7 +145,10 @@
                 <option value="4k">4K</option>
             </select>
         </div>
-
+        <div>
+            <label for="logo-upload">Upload Logo for QR Code:</label>
+            <input type="file" id="logo-upload" accept="image/*" onchange="handleLogoUpload(event)">
+        </div>
         <div id="code-preview"></div>
     </div>
 
